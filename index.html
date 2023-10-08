@@ -6,9 +6,12 @@
   <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.22.2"></script>
 </head>
 <body>
-  <div id="vis"/>
+    <h1>Week 10 Homework</h1>
+  <div id="vis1"></div>
+
+  <div id="vis2"></div>
   <script>
-    const spec = {
+    const spec1 = {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "title": "Top 10 Candidates by Votes according to year",
   "description": "A bar graph showing the log-transformed votes of candidates.",
@@ -69,7 +72,49 @@
   },
   "config": {}
 };
-    vegaEmbed("#vis", spec, {mode: "vega-lite"}).then(console.log).catch(console.warn);
+    vegaEmbed("#vis1", spec1, {mode: "vega-lite"}).then(console.log).catch(console.warn);
+
+    const spec2 = {
+        "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+        "title": "Electoral Votes for Each State (2022)",
+        "width": 800,
+        "height": 400,
+        "projection": {"type": "albersUsa"},
+        "data": {
+          "url": "https://raw.githubusercontent.com/weap0001/FIT3179-Week-9/main/ne_110m.json?token=GHSAT0AAAAAACFSYTIB2YGOHJA2PMATCTJMZIPBENQ",
+          "format": {
+            "type": "topojson",
+            "feature": "ne_110m_admin_1_states_provinces"
+          }
+        },
+        "transform": [
+          {
+            "lookup": "properties.name",
+            "from": {
+              "data": {
+                "url": "https://raw.githubusercontent.com/weap0001/FIT3179-Week-9/main/electoral_vote.csv"
+              },
+              "key": "state",
+              "fields": ["vote"]
+            }
+          },
+          {"calculate": "datum.vote || datum.vote+0.1", "as": "VOTES"}
+        ],
+        "mark": {"type": "geoshape", "stroke": "black"},
+        "encoding": {
+          "color": {
+            "field": "VOTES",
+            "type": "quantitative",
+            "scale": {"scheme": "blues"}
+          },
+          "tooltip": [
+            {"field": "properties.name", "type": "nominal", "title": "State"},
+            {"field": "VOTES", "type": "quantitative", "title": "Electoral Votes"}
+          ]
+        },
+        "config": {}
+      };
+          vegaEmbed("#vis2", spec2, {mode: "vega-lite"}).then(console.log).catch(console.warn);
   </script>
 </body>
 </html>

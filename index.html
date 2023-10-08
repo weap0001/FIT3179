@@ -31,6 +31,10 @@
                     "as": "logVotes"
                 },
                 {
+                    "calculate": "datum.candidatevotes + 1",
+                    "as": "nonTransformed"
+                },
+                {
                     "window": [{"op": "rank", "as": "rank"}],
                     "sort": [{"field": "candidatevotes", "order": "descending"}]
                 },
@@ -43,7 +47,7 @@
                 "x": {
                     "field": "logVotes",
                     "type": "quantitative",
-                    "title": "Log-transformed Candidate Votes"
+                    "title": "Log Transformed Candidate Votes"
                 },
                 "y": {
                     "field": "candidate",
@@ -54,7 +58,7 @@
                 "color": {
                     "field": "year",
                     "type": "ordinal",
-                    "legend": {"title": "Election Year"}
+                    "legend": null
                 },
                 "tooltip": [
                     {"field": "year", "type": "ordinal", "title": "Election Year"},

@@ -1,120 +1,128 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <script src="https://cdn.jsdelivr.net/npm/vega@5.25.0"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.15.0"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.22.2"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 10 Homework</title>
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.25.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.15.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.22.2"></script>
 </head>
 <body>
     <h1>Week 10 Homework</h1>
-  <div id="vis1"></div>
 
-  <div id="vis2"></div>
-  <script>
-    const spec1 = {
-  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "title": "Top 10 Candidates by Votes according to year",
-  "description": "A bar graph showing the log-transformed votes of candidates.",
-  "width": 800,
-  "height": 500,
-  "data": {
-    "url": "https://raw.githubusercontent.com/weap0001/FIT3179/main/1976-2020-president.csv"
-  },
-  "transform": [
-    {"calculate": "datum.year", "as": "Year"},
-    {"filter": "datum.Year >= 0"},
-    {"calculate": "log(datum.candidatevotes + 1)", "as": "CandidateVotes"},
-    {"calculate": "datum.candidatevotes + 1", "as": "votes"},
-    {
-      "window": [{"op": "rank", "as": "rank"}],
-      "sort": [{"field": "CandidateVotes", "order": "descending"}]
-    },
-    {"filter": "datum.rank <= 10"}
-  ],
-  "mark": "bar",
-  "encoding": {
-    "x": {"field": "votes", "type": "quantitative", "title": "Candidate Votes"},
-    "y": {
-      "field": "candidate",
-      "type": "nominal",
-      "sort": "-x",
-      "title": "Candidate"
-    },
-    "tooltip": [
-      {"field": "Year", "type": "ordinal", "title": "Election Year:"},
-      {"field": "state", "type": "ordinal", "title": "State:"},
-      {"field": "candidatevotes", "type": "quantitative", "title": "Votes:"}
-    ]
-  },
-  "selection": {
-    "YearSelector": {
-      "type": "single",
-      "fields": ["Year"],
-      "bind": {
-        "input": "select",
-        "options": [
-          2020,
-          2016,
-          2012,
-          2008,
-          2004,
-          2000,
-          1996,
-          1992,
-          1988,
-          1984,
-          1980,
-          1976
-        ],
-        "name": "Year Selector"
-      }
-    }
-  },
-  "config": {}
-};
-    vegaEmbed("#vis1", spec1, {mode: "vega-lite"}).then(console.log).catch(console.warn);
+    <div id="vis1"></div>
+    <script type="text/javascript">
+        var spec1 = {
+            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+            "title": "Top 10 Candidates by Votes According to Year",
+            "description": "A bar graph showing the votes of candidates.",
+            "width": 800,
+            "height": 500,
+            "data": {
+                "url": "https://raw.githubusercontent.com/weap0001/FIT3179/main/1976-2020-president.csv"
+            },
+            "transform": [
+                {
+                    "filter": "datum.year == year"
+                },
+                {
+                    "calculate": "log(datum.candidatevotes + 1)",
+                    "as": "logVotes"
+                },
+                {
+                    "window": [{"op": "rank", "as": "rank"}],
+                    "sort": [{"field": "candidatevotes", "order": "descending"}]
+                },
+                {
+                    "filter": "datum.rank <= 22"
+                }
+            ],
+            "mark": "bar",
+            "encoding": {
+                "x": {
+                    "field": "logVotes",
+                    "type": "quantitative",
+                    "title": "Log-transformed Candidate Votes"
+                },
+                "y": {
+                    "field": "candidate",
+                    "type": "nominal",
+                    "sort": "-x",
+                    "title": "Candidate"
+                },
+                "color": {
+                    "field": "year",
+                    "type": "ordinal",
+                    "legend": {"title": "Election Year"}
+                },
+                "tooltip": [
+                    {"field": "year", "type": "ordinal", "title": "Election Year"},
+                    {"field": "state", "type": "nominal", "title": "State"},
+                    {"field": "candidatevotes", "type": "quantitative", "title": "Votes"}
+                ]
+            },
+            "params": [
+                {
+                    "name": "year",
+                    "value": 1976,
+                    "bind": {
+                        "input": "range",
+                        "min": 1976,
+                        "max": 2000,
+                        "step": 4,
+                        "name": "Select Year"
+                    }
+                }
+            ]
+        };
+        
+        vegaEmbed('#vis1', spec1).catch(console.error);
+    </script>
 
-    const spec2 = {
-        "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-        "title": "Electoral Votes for Each State (2022)",
-        "width": 800,
-        "height": 400,
-        "projection": {"type": "albersUsa"},
-        "data": {
-          "url": "https://raw.githubusercontent.com/weap0001/FIT3179-Week-9/main/ne_110m.json?token=GHSAT0AAAAAACFSYTIB2YGOHJA2PMATCTJMZIPBENQ",
-          "format": {
-            "type": "topojson",
-            "feature": "ne_110m_admin_1_states_provinces"
-          }
-        },
-        "transform": [
-          {
-            "lookup": "properties.name",
-            "from": {
-              "data": {
-                "url": "https://raw.githubusercontent.com/weap0001/FIT3179-Week-9/main/electoral_vote.csv"
-              },
-              "key": "state",
-              "fields": ["vote"]
+    <div id="vis2"></div>
+    <script type="text/javascript">
+        var spec2 = {
+            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+            "title": "Electoral Votes for Each State (2022)",
+            "width": 800,
+            "height": 400,
+            "projection": {"type": "albersUsa"},
+            "data": {
+                "url": "https://raw.githubusercontent.com/weap0001/FIT3179-Week-9/main/ne_110m.json?token=GHSAT0AAAAAACFSYTIB2YGOHJA2PM",
+                "format": {
+                    "type": "topojson",
+                    "feature": "ne_110m_admin_1_states_provinces"
+                }
+            },
+            "transform": [
+                {
+                    "lookup": "properties.name",
+                    "from": {
+                        "data": {
+                            "url": "https://raw.githubusercontent.com/weap0001/FIT3179-Week-9/main/electoral_vote.csv"
+                        },
+                        "key": "state",
+                        "fields": ["vote"]
+                    }
+                },
+                {"calculate": "datum.vote || datum.vote+0.1", "as": "VOTES"}
+            ],
+            "mark": {"type": "geoshape", "stroke": "black"},
+            "encoding": {
+                "color": {
+                    "field": "VOTES",
+                    "type": "quantitative",
+                    "scale": {"scheme": "blues"}
+                },
+                "tooltip": [
+                    {"field": "properties.name", "type": "nominal", "title": "State"},
+                    {"field": "VOTES", "type": "quantitative", "title": "Electoral Votes"}
+                ]
             }
-          },
-          {"calculate": "datum.vote || datum.vote+0.1", "as": "VOTES"}
-        ],
-        "mark": {"type": "geoshape", "stroke": "black"},
-        "encoding": {
-          "color": {
-            "field": "VOTES",
-            "type": "quantitative",
-            "scale": {"scheme": "blues"}
-          },
-          "tooltip": [
-            {"field": "properties.name", "type": "nominal", "title": "State"},
-            {"field": "VOTES", "type": "quantitative", "title": "Electoral Votes"}
-          ]
-        },
-        "config": {}
-      };
-          vegaEmbed("#vis2", spec2, {mode: "vega-lite"}).then(console.log).catch(console.warn);
-  </script>
+        };
+        
+        vegaEmbed('#vis2', spec2).catch(console.error);
+    </script>
 </body>
 </html>

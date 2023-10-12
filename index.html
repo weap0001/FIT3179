@@ -9,7 +9,8 @@
     <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.22.2"></script>
 </head>
 <body>
-    <h1>Week 10 Homework</h1>
+    <h1>Visual Critique</h1>
+    <h2>Visualisation 1</h2>
 
     <div id="vis1"></div>
     <script type="text/javascript">
@@ -84,6 +85,7 @@
         vegaEmbed('#vis1', spec1).catch(console.error);
     </script>
 
+    <h2>Visualisation 2</h2>
     <div id="vis2"></div>
     <script type="text/javascript">
         var spec2 = {
@@ -127,6 +129,72 @@
         };
         
         vegaEmbed('#vis2', spec2).catch(console.error);
+    </script>
+
+    <h2>Visualisation 3</h2>
+    <div id="vis3"></div>
+    <script type="text/javascript">
+        var spec3 = {
+            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+            "data": {
+                "url": "https://raw.githubusercontent.com/weap0001/FIT3179/main/USA_demographic.csv"
+            },
+            "title": "US Politic Party Ruling with GDP growth and Unemployment rates",
+            "width": 800,
+            "height": 400,
+            "layer": [
+                {
+                    "mark": "rect",
+                    "encoding": {
+                        "x": {"field": "Year", "type": "ordinal", "axis": {"title": ""}},
+                        "color": {
+                            "field": "Party",
+                            "type": "nominal",
+                            "legend": {"title": "Ruling Party"},
+                            "scale": {
+                                "domain": ["Democrat", "Republican"],
+                                "range": ["rgba(211, 211, 211, 0.0)", "rgba(211, 211, 211, 0.7)"]
+                            }
+                        }
+                    }
+                },
+                {
+                    "transform": [{"calculate": "'GDP Growth'", "as": "Metric"}],
+                    "mark": "line",
+                    "encoding": {
+                        "x": {"field": "Year", "type": "ordinal", "axis": {"title": ""}},
+                        "y": {"field": "Annual_GDP_growth", "type": "quantitative", "axis": {"title": "Rate %"}},
+                        "color": {
+                            "field": "Metric",
+                            "type": "nominal",
+                            "scale": {"domain": ["GDP Growth"], "range": ["red"]},
+                            "legend": {"title": "Metrics"}
+                        }
+                    }
+                },
+                {
+                    "transform": [{"calculate": "'Unemployment Rate'", "as": "Metric"}],
+                    "mark": "line",
+                    "encoding": {
+                        "x": {"field": "Year", "type": "ordinal", "axis": {"title": ""}},
+                        "y": {"field": "Unemployment_rate", "type": "quantitative", "axis": {"title": "Rate %"}},
+                        "color": {
+                            "field": "Metric",
+                            "type": "nominal",
+                            "scale": {"domain": ["Unemployment Rate"], "range": ["green"]},
+                            "legend": {"title": "Metrics"}
+                        }
+                    }
+                }
+            ],
+            "resolve": {
+                "scale": {
+                    "color": "independent"
+                }
+            }
+        };
+        
+        vegaEmbed('#vis3', spec3).catch(console.error);
     </script>
 </body>
 </html>

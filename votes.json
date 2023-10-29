@@ -35,7 +35,7 @@
         "color": {
           "datum": "Democrat",
           "type": "nominal",
-          "legend": {"title": "Party"}, // Corrected legend title
+          "legend": {"title": "Party"}, 
           "scale": {
             "domain": ["Democrat", "Republican", "Other"],
             "range": ["#01016f", "#d8031c", "grey"]
@@ -50,7 +50,7 @@
         "color": {
           "datum": "Republican",
           "type": "nominal",
-          "legend": {"title": "Party"} // Added legend title here
+          "legend": {"title": "Party"}
         }
       }
     },
@@ -61,7 +61,7 @@
         "color": {
           "datum": "Other",
           "type": "nominal",
-          "legend": {"title": "Party"} // Added legend title here
+          "legend": {"title": "Party"} 
         }
       }
     },

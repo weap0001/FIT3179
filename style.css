@@ -1,0 +1,51 @@
+.container-fluid {
+    width: 60%; /* Adjust this value to set the container width as a percentage of the screen */
+    max-width: none; /* Remove the maximum width constraint */
+    background-color: aliceblue;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-top: 20px;
+  }
+body{
+    background-image:url("../img/background.jpg");
+    background-size: cover;
+}
+.gold{
+    color: gold;
+}
+.middle-text{
+    /* text-align:center; */
+    padding-left: 1%;
+}
+p{
+    font-weight: 300;
+
+}
+#vis1,#vis2,#vis3,#vis4,#vis5,#vis6{
+    width: 100%;
+    justify-content: center;
+}
+
+.color-text{
+    background-color: rgb(220, 237, 255);
+    padding: 5px;
+    background-size:auto;
+    justify-content:center;
+    background-position: center-center;
+}
+strong{
+    font-weight: bold;
+}
+
+footer{
+    padding: auto;
+    text-align: center;
+}
+
+.female{
+    color:#c90076
+}
+
+.male{
+    color:#2986cc
+}

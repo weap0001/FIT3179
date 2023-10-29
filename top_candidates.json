@@ -41,7 +41,9 @@
         "ticks": false,
         "labelPadding": 10,
         "titlePadding": 10,
-        "labelFont": "arial"
+        "labelFont": "arial",
+        "titleFontSize": 15
+
       }
     },
     "y": {
@@ -52,8 +54,11 @@
       "axis": {
         "ticks": false,
         "labelPadding": 10,
-        "titlePadding": 40,
-        "labelFont": "arial"
+        "titlePadding": 20,
+        "labelFont": "arial",
+        "titleAngle": 0,
+        "titleY": 220,
+        "titleFontSize": 15
       }
     },
     "color": {

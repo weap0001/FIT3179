@@ -28,28 +28,44 @@
     }
   ],
   "projection": {"type": "albersUsa"},
-  "mark": "geoshape",
-  "encoding": {
-    "color": {
-      "field": "State Political Lean",
-      "type": "quantitative",
-      "scale": {"scheme": "redblue", "domain": [-70, 70]},
-      "legend": {
-        "labelExpr": "datum.value === -50 ? 'Democratic' : datum.value === 50 ? 'Republican' : datum.value",
-        "orient": "bottom"
+  "layer": [
+    {
+      "mark": "geoshape",
+      "encoding": {
+        "color": {
+          "field": "State Political Lean",
+          "type": "quantitative",
+          "scale": {"scheme": "redblue", "domain": [-70, 70]},
+          "legend": {
+            "labelExpr": "datum.value === -50 ? 'Democratic' : datum.value === 50 ? 'Republican' : datum.value",
+            "orient": "bottom"
+          }
+        },
+        "tooltip": [
+          {"field": "State", "title": "State"},
+          {
+            "field": "BidenHarrisDemocraticPercentage",
+            "title": "Democratic Percentage"
+          },
+          {
+            "field": "TrumpPenceRepublicanPercentage",
+            "title": "Republican Percentage"
+          }
+        ]
       }
     },
-    "tooltip": [
-      {"field": "State", "title": "State"},
-      {
-        "field": "BidenHarrisDemocraticPercentage",
-        "title": "Democratic Percentage"
+    {
+      "mark": {
+        "type": "geoshape",
+        "stroke": "black",  
+        "strokeWidth": 1   
       },
-      {
-        "field": "TrumpPenceRepublicanPercentage",
-        "title": "Republican Percentage"
+      "encoding": {
+        "color": {
+          "value": "transparent" 
+        }
       }
-    ]
-  },
+    }
+  ],
   "config": {}
 }

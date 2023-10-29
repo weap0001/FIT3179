@@ -35,6 +35,7 @@
         "color": {
           "datum": "Democrat",
           "type": "nominal",
+          "legend": {"title": "Party"}, // Added legend title here
           "scale": {
             "domain": ["Democrat", "Republican", "Other"],
             "range": ["#01016f", "#d8031c", "grey"]

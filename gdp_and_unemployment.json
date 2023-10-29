@@ -1,0 +1,139 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "data": {
+    "url": "https://raw.githubusercontent.com/weap0001/FIT3179/main/USA_demographic.csv"
+  },
+  "width": 800,
+  "height": 400,
+  "padding": 20,
+  "config": {
+    "axis": {
+      "domainColor": "#888888",
+      "labelFontSize": 12,
+      "titleFontSize": 14,
+      "titleFontWeight": "normal",
+      "labelPadding": 5,
+      "titlePadding": 10
+    }
+  },
+  "transform": [
+    {"fold": ["Unemployment_rate", "Annual_GDP_growth"]},
+    {
+      "lookup": "Year",
+      "from": {
+        "data": {
+          "url": "https://raw.githubusercontent.com/weap0001/FIT3179/main/USA_demographic.csv"
+        },
+        "key": "Year",
+        "fields": ["Unemployment_rate", "Annual_GDP_growth"]
+      }
+    }
+  ],
+  "layer": [
+    {
+      "mark": {"type": "line", "strokeWidth": 2},
+      "encoding": {
+        "x": {
+          "field": "Year",
+          "type": "ordinal",
+          "axis": {
+            "labelAngle": 0,
+            "titlePadding": 20,
+            "values": [
+              "1960",
+              "1965",
+              "1970",
+              "1975",
+              "1980",
+              "1985",
+              "1990",
+              "1995",
+              "2000",
+              "2005",
+              "2010",
+              "2015",
+              "2020"
+            ]
+          }
+        },
+        "y": {
+          "field": "value",
+          "type": "quantitative",
+          "axis": {"title": "Change %", "titleAngle": 0, "titlePadding": 40}
+        },
+        "color": {
+          "field": "key",
+          "type": "nominal",
+          "scale": {
+            "domain": ["Unemployment_rate", "Annual_GDP_growth"],
+            "range": ["#21227f", "#e4b410"]
+          },
+          "legend": {"title": "Performance Metrics", "symbolType": "circle"}
+        }
+      }
+    },
+    {
+      "mark": "rule",
+      "encoding": {
+        "x": {"field": "Year", "type": "ordinal"},
+        "opacity": {
+          "condition": {"param": "hover", "empty": false, "value": 0.7},
+          "value": 0
+        },
+        "tooltip": [
+          {"field": "Year", "type": "ordinal", "title": "Year"},
+          {
+            "field": "Unemployment_rate",
+            "type": "quantitative",
+            "title": "Unemployment Rate"
+          },
+          {
+            "field": "Annual_GDP_growth",
+            "type": "quantitative",
+            "title": "GDP Growth"
+          }
+        ]
+      },
+      "params": [
+        {
+          "name": "hover",
+          "select": {
+            "type": "point",
+            "fields": ["Year"],
+            "nearest": true,
+            "on": "mouseover",
+            "clear": "mouseout"
+          }
+        }
+      ]
+    },
+    {
+      "mark": {"type": "text", "dy": 335, "dx": -5, "align": "right"},
+      "data": {
+        "values": [
+          {"Year": "1973", "Event": "Oil Crisis - "},
+          {"Year": "1987", "Event": "Black Monday - "},
+          {"Year": "2000", "Event": "Dot-com Burst - "},
+          {"Year": "2008", "Event": "Great Recession - "}
+        ]
+      },
+      "encoding": {
+        "x": {"field": "Year", "type": "ordinal"},
+        "y": {"value": 20},
+        "text": {"field": "Event", "type": "nominal"}
+      }
+    },
+    {
+      "mark": {"type": "rule", "strokeDash": [4, 2]},
+      "data": {
+        "values": [
+          {"Year": "1973"},
+          {"Year": "1987"},
+          {"Year": "2000"},
+          {"Year": "2008"}
+        ]
+      },
+      "encoding": {"x": {"field": "Year", "type": "ordinal"}}
+    }
+  ]
+}

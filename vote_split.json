@@ -1,0 +1,80 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "data": {
+    "values": [
+      {"StateCount": 54, "Category": "Democratic States"},
+      {"StateCount": 6, "Category": "Other States"},
+      {"StateCount": 44, "Category": "Republican States"}
+    ]
+  },
+  "transform": [
+    {
+      "window": [{"op": "sum", "field": "StateCount", "as": "CumulativeSum"}],
+      "sort": [{"field": "Category"}]
+    },
+    {"calculate": "datum.CumulativeSum - datum.StateCount/2", "as": "MidPoint"}
+  ],
+  "width": 500,
+  "height": 45,
+  "padding": {"left": 0, "right": 0, "top": 0, "bottom": 0},
+  "layer": [
+    {
+      "mark": "bar",
+      "encoding": {
+        "x": {
+          "field": "StateCount",
+          "type": "quantitative",
+          "stack": "zero",
+          "axis": {
+            "title": null,
+            "labels": false,
+            "ticks": false,
+            "domain": false,
+            "grid": false
+          }
+        },
+        "color": {
+          "field": "Category",
+          "type": "nominal",
+          "scale": {
+            "domain": [
+              "Democratic States",
+              "Other States",
+              "Republican States"
+            ],
+            "range": ["#21227f", "lightgrey", "#d8031c"]
+          },
+          "legend": null
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "center",
+        "baseline": "middle",
+        "color": "white",
+        "size": 18
+      },
+      "encoding": {
+        "x": {"field": "MidPoint", "type": "quantitative"},
+        "text": {
+          "field": "Category",
+          "type": "nominal",
+          "condition": [
+            {
+              "test": "datum.Category == 'Democratic States'",
+              "value": "Democratic: 53.4%"
+            },
+            {
+              "test": "datum.Category == 'Republican States'",
+              "value": "Republican: 44.8%"
+            },
+            {"test": "datum.Category == 'Other States'", "value": ""}
+          ]
+        }
+      }
+    }
+  ],
+  "config": {"background": "transparent"}
+}

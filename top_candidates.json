@@ -1,0 +1,94 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Top 10 Candidates by Votes According to Year",
+    "subtitle": "\n"
+  },
+  "width": 800,
+  "height": 400,
+  "data": {
+    "url": "https://raw.githubusercontent.com/weap0001/FIT3179/main/1976-2020-president.csv"
+  },
+  "transform": [
+    {"filter": "datum.year == year"},
+    {"filter": "datum.candidate !== null && datum.candidate !== ''"},
+    {
+      "aggregate": [
+        {"op": "sum", "field": "candidatevotes", "as": "totalVotes"},
+        {"op": "max", "field": "party_simplified", "as": "party_simplified"},
+        {"op": "max", "field": "party_detailed", "as": "party_detailed"}
+      ],
+      "groupby": ["candidate", "year"]
+    },
+    {"calculate": "log(datum.totalVotes + 1)", "as": "logVotes"},
+    {
+      "window": [{"op": "rank", "as": "rank"}],
+      "sort": [{"field": "totalVotes", "order": "descending"}]
+    },
+    {"filter": "datum.rank <= 10"},
+    {
+      "calculate": "datum.party_simplified === 'DEMOCRAT' ? 'Democrat' : datum.party_simplified === 'REPUBLICAN' ? 'Republican' : 'Other'",
+      "as": "partyLabel"
+    }
+  ],
+  "mark": {"type": "bar", "size": 32},
+  "encoding": {
+    "x": {
+      "field": "logVotes",
+      "type": "quantitative",
+      "title": "Log Transformed Candidate Votes",
+      "axis": {
+        "ticks": false,
+        "labelPadding": 10,
+        "titlePadding": 10,
+        "labelFont": "arial"
+      }
+    },
+    "y": {
+      "field": "candidate",
+      "type": "nominal",
+      "title": "Candidate",
+      "sort": {"field": "totalVotes", "order": "descending"},
+      "axis": {
+        "ticks": false,
+        "labelPadding": 10,
+        "titlePadding": 40,
+        "labelFont": "arial"
+      }
+    },
+    "color": {
+      "field": "partyLabel",
+      "type": "nominal",
+      "scale": {
+        "domain": ["Democrat", "Republican", "Other"],
+        "range": ["#21227f", "#d8031c", "#016f10"]
+      },
+      "legend": {"title": "Party"}
+    },
+    "tooltip": [
+      {"field": "year", "type": "ordinal", "title": "Election Year"},
+      {
+        "field": "totalVotes",
+        "type": "quantitative",
+        "title": "Total Votes in Year",
+        "format": ","
+      },
+      {"field": "candidate", "type": "nominal", "title": "Candidate Name"},
+      {"field": "party_detailed", "type": "nominal", "title": "Detailed Party"}
+    ]
+  },
+  "params": [
+    {
+      "name": "year",
+      "value": 2020,
+      "bind": {
+        "input": "range",
+        "min": 1976,
+        "max": 2020,
+        "step": 4,
+        "name": "Select Year:"
+      }
+    }
+  ],
+  "config": {}
+}

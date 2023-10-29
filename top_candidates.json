@@ -42,23 +42,23 @@
         "labelPadding": 10,
         "titlePadding": 10,
         "labelFont": "arial",
+        "titleFontWeight": "normal",
         "titleFontSize": 15
-
       }
     },
     "y": {
       "field": "candidate",
       "type": "nominal",
-      "title": "Candidate",
+      "title": null,
       "sort": {"field": "totalVotes", "order": "descending"},
       "axis": {
         "ticks": false,
         "labelPadding": 10,
-        "titlePadding": 20,
+        "titlePadding": 5,
         "labelFont": "arial",
-        "titleAngle": 0,
         "titleY": 220,
-        "titleFontSize": 15
+        "titleFontSize": 15,
+        "titleFontWeight": "normal",
       }
     },
     "color": {

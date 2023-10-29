@@ -6,85 +6,153 @@
     "url": "https://raw.githubusercontent.com/weap0001/FIT3179/main/1976-2020-president.csv"
   },
   "transform": [
-    {"filter": "datum.year == year"},
-    {"filter": "datum.candidate !== null && datum.candidate !== ''"},
     {
-      "aggregate": [
-        {"op": "sum", "field": "candidatevotes", "as": "totalVotes"},
-        {"op": "max", "field": "party_simplified", "as": "party_simplified"},
-        {"op": "max", "field": "party_detailed", "as": "party_detailed"}
-      ],
-      "groupby": ["candidate", "year"]
+      "calculate": "datum.party_simplified == 'DEMOCRAT' || datum.party_simplified == 'REPUBLICAN' ? datum.party_simplified : 'OTHER'",
+      "as": "Party"
     },
-    {"calculate": "log(datum.totalVotes + 1)", "as": "logVotes"},
     {
-      "window": [{"op": "rank", "as": "rank"}],
-      "sort": [{"field": "totalVotes", "order": "descending"}]
+      "aggregate": [{"op": "sum", "field": "candidatevotes", "as": "Votes"}],
+      "groupby": ["year", "Party"]
     },
-    {"filter": "datum.rank <= 10"},
-    {
-      "calculate": "datum.party_simplified === 'DEMOCRAT' ? 'Democrat' : datum.party_simplified === 'REPUBLICAN' ? 'Republican' : 'Other'",
-      "as": "partyLabel"
-    }
+    {"pivot": "Party", "value": "Votes", "groupby": ["year"]}
   ],
-  "mark": {"type": "bar", "size": 32},
   "encoding": {
     "x": {
-      "field": "logVotes",
-      "type": "quantitative",
-      "title": "Log Transformed Candidate Votes",
-      "axis": {
-        "ticks": false,
-        "labelPadding": 10,
-        "titlePadding": 10,
-        "labelFont": "arial"
-      }
-    },
-    "y": {
-      "field": "candidate",
-      "type": "nominal",
-      "title": "Candidate",
-      "sort": {"field": "totalVotes", "order": "descending"},
-      "axis": {
-        "ticks": false,
-        "labelPadding": 10,
-        "titlePadding": 40,
-        "labelFont": "arial"
-      }
-    },
-    "color": {
-      "field": "partyLabel",
-      "type": "nominal",
-      "scale": {
-        "domain": ["Democrat", "Republican", "Other"],
-        "range": ["#21227f", "#d8031c", "#016f10"]
-      },
-      "legend": {"title": "Party"}
-    },
-    "tooltip": [
-      {"field": "year", "type": "ordinal", "title": "Election Year"},
-      {
-        "field": "totalVotes",
-        "type": "quantitative",
-        "title": "Total Votes in Year",
-        "format": ","
-      },
-      {"field": "candidate", "type": "nominal", "title": "Candidate Name"},
-      {"field": "party_detailed", "type": "nominal", "title": "Detailed Party"}
-    ]
+      "field": "year",
+      "type": "temporal",
+      "axis": {"grid": false, "labelAngle": 0, "titlePadding": 20}
+    }
   },
-  "params": [
+  "layer": [
     {
-      "name": "year",
-      "value": 2020,
-      "bind": {
-        "input": "range",
-        "min": 1976,
-        "max": 2020,
-        "step": 4,
-        "name": "Select Year:"
+      "mark": {"type": "line", "point": true},
+      "encoding": {
+        "y": {
+          "field": "DEMOCRAT",
+          "type": "quantitative",
+          "axis": {"title": "Votes", "titleAngle": 0, "titlePadding": 40}
+        },
+        "color": {
+          "datum": "Democrat",
+          "type": "nominal",
+          "legend": {"title": "Party"}, // Corrected legend title
+          "scale": {
+            "domain": ["Democrat", "Republican", "Other"],
+            "range": ["#01016f", "#d8031c", "grey"]
+          }
+        }
       }
+    },
+    {
+      "mark": {"type": "line", "point": true},
+      "encoding": {
+        "y": {"field": "REPUBLICAN", "type": "quantitative"},
+        "color": {
+          "datum": "Republican",
+          "type": "nominal",
+          "legend": {"title": "Party"} // Added legend title here
+        }
+      }
+    },
+    {
+      "mark": {"type": "line", "point": true},
+      "encoding": {
+        "y": {"field": "OTHER", "type": "quantitative"},
+        "color": {
+          "datum": "Other",
+          "type": "nominal",
+          "legend": {"title": "Party"} // Added legend title here
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {"year": "1980"},
+          {"year": "1992"},
+          {"year": "2000"},
+          {"year": "2008"}
+        ]
+      },
+      "mark": {"type": "rule", "strokeDash": [4, 2]},
+      "encoding": {"x": {"field": "year", "type": "temporal"}}
+    },
+    {
+      "data": {
+        "values": [
+          {"year": "1980", "annotation": "- Reagan's Victory"},
+          {"year": "1992", "annotation": "- Third-Party Secured 19%"},
+          {"year": "2000", "annotation": "- Florida Recount"},
+          {"year": "2008", "annotation": "- Obama's Win"}
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "dx": 7,
+        "dy": -170,
+        "align": "left",
+        "baseline": "middle",
+        "fontSize": 10
+      },
+      "encoding": {
+        "x": {"field": "year", "type": "temporal"},
+        "text": {"field": "annotation", "type": "nominal"}
+      }
+    },
+    {
+      "mark": "rule",
+      "encoding": {
+        "x": {"field": "year", "type": "temporal"},
+        "opacity": {
+          "condition": {
+            "test": {"param": "hover", "empty": false},
+            "value": 0.3
+          },
+          "value": 0
+        },
+        "tooltip": [
+          {
+            "field": "year",
+            "type": "temporal",
+            "title": "Year",
+            "format": "%Y"
+          },
+          {
+            "field": "DEMOCRAT",
+            "type": "quantitative",
+            "title": "Democratic Votes"
+          },
+          {
+            "field": "REPUBLICAN",
+            "type": "quantitative",
+            "title": "Republican Votes"
+          },
+          {"field": "OTHER", "type": "quantitative", "title": "Other Votes"}
+        ]
+      },
+      "params": [
+        {
+          "name": "hover",
+          "select": {
+            "type": "point",
+            "fields": ["year"],
+            "nearest": true,
+            "on": "mouseover",
+            "clear": "mouseout"
+          },
+          "bind": "legend"
+        }
+      ]
     }
   ],
-  "config": {}
+  "config": {
+    "axis": {
+      "domainColor": "#888888",
+      "labelFontSize": 12,
+      "titleFontSize": 14,
+      "titleFontWeight": "normal",
+      "labelPadding": 5,
+      "titlePadding": 10
+    }
+  }
 }

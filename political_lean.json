@@ -3,7 +3,7 @@
   "width": 800,
   "height": 400,
   "data": {
-    "url": "data/us-10m.json",
+    "url": "https://raw.githubusercontent.com/weap0001/FIT3179/main/us-10m.json",
     "format": {"type": "topojson", "feature": "states"}
   },
   "transform": [
@@ -28,44 +28,28 @@
     }
   ],
   "projection": {"type": "albersUsa"},
-  "layer": [
-    {
-      "mark": "geoshape",
-      "encoding": {
-        "color": {
-          "field": "State Political Lean",
-          "type": "quantitative",
-          "scale": {"scheme": "redblue", "domain": [-70, 70]},
-          "legend": {
-            "labelExpr": "datum.value === -50 ? 'Democratic' : datum.value === 50 ? 'Republican' : datum.value",
-            "orient": "bottom"
-          }
-        },
-        "tooltip": [
-          {"field": "State", "title": "State"},
-          {
-            "field": "BidenHarrisDemocraticPercentage",
-            "title": "Democratic Percentage"
-          },
-          {
-            "field": "TrumpPenceRepublicanPercentage",
-            "title": "Republican Percentage"
-          }
-        ]
+  "mark": "geoshape",
+  "encoding": {
+    "color": {
+      "field": "State Political Lean",
+      "type": "quantitative",
+      "scale": {"scheme": "redblue", "domain": [-70, 70]},
+      "legend": {
+        "labelExpr": "datum.value === -50 ? 'Democratic' : datum.value === 50 ? 'Republican' : datum.value",
+        "orient": "bottom"
       }
     },
-    {
-      "mark": {
-        "type": "geoshape",
-        "stroke": "black",  
-        "strokeWidth": 1   
+    "tooltip": [
+      {"field": "State", "title": "State"},
+      {
+        "field": "BidenHarrisDemocraticPercentage",
+        "title": "Democratic Percentage"
       },
-      "encoding": {
-        "color": {
-          "value": "transparent" 
-        }
+      {
+        "field": "TrumpPenceRepublicanPercentage",
+        "title": "Republican Percentage"
       }
-    }
-  ],
+    ]
+  },
   "config": {}
 }

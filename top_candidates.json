@@ -58,7 +58,7 @@
         "labelFont": "arial",
         "titleY": 220,
         "titleFontSize": 15,
-        "titleFontWeight": "normal",
+        "titleFontWeight": "normal"
       }
     },
     "color": {

@@ -27,7 +27,7 @@
       "as": "partyLabel"
     }
   ],
-  "mark": {"type": "bar", "size": 32},
+  "mark": {"type": "bar", "size": 20},
   "encoding": {
     "x": {
       "field": "logVotes",

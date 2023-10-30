@@ -49,7 +49,7 @@
     "y": {
       "field": "candidate",
       "type": "nominal",
-      "title": "Candidates",
+      "title": null,
       "sort": {"field": "totalVotes", "order": "descending"},
       "axis": {
         "ticks": false,

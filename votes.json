@@ -1,7 +1,7 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "width": 800,
-  "height": 400,
+  "width": 500,
+  "height": 300,
   "data": {
     "url": "https://raw.githubusercontent.com/weap0001/FIT3179/main/1976-2020-president.csv"
   },
@@ -70,7 +70,6 @@
         "values": [
           {"year": "1980"},
           {"year": "1992"},
-          {"year": "2000"},
           {"year": "2008"}
         ]
       },
@@ -82,14 +81,13 @@
         "values": [
           {"year": "1980", "annotation": "- Reagan's Victory"},
           {"year": "1992", "annotation": "- Third-Party Secured 19%"},
-          {"year": "2000", "annotation": "- Florida Recount"},
           {"year": "2008", "annotation": "- Obama's Win"}
         ]
       },
       "mark": {
         "type": "text",
         "dx": 7,
-        "dy": -170,
+        "dy": -100,
         "align": "left",
         "baseline": "middle",
         "fontSize": 10

@@ -3,8 +3,8 @@
   "data": {
     "url": "https://raw.githubusercontent.com/weap0001/FIT3179/main/USA_demographic.csv"
   },
-  "width": 500,
-  "height": 300,
+  "width": 700,
+  "height": 400,
   "padding": 20,
   "config": {
     "axis": {
@@ -108,7 +108,7 @@
       ]
     },
     {
-      "mark": {"type": "text", "dy": 250, "dx": -5, "align": "right"},
+      "mark": {"type": "text", "dy": 360, "dx": -5, "align": "right", "fontSize": 14},
       "data": {
         "values": [
           {"Year": "1973", "Event": "Oil Crisis - "},
@@ -122,8 +122,8 @@
         "text": {"field": "Event", "type": "nominal"}
       }
     },
-        {
-      "mark": {"type": "text", "dy": 250, "dx":5, "align": "left"},
+    {
+      "mark": {"type": "text", "dy": 360, "dx": 5, "align": "left", "fontSize": 14}, 
       "data": {
         "values": [
           {"Year": "2007", "Event": "- Great Recession"}

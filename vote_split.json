@@ -14,8 +14,8 @@
     },
     {"calculate": "datum.CumulativeSum - datum.StateCount/2", "as": "MidPoint"}
   ],
-  "width": 500,
-  "height": 45,
+  "width": 700, 
+  "height": 50,  
   "padding": {"left": 0, "right": 0, "top": 0, "bottom": 0},
   "layer": [
     {
@@ -55,7 +55,7 @@
         "baseline": "middle",
         "color": "white",
         "fontWeight": "bold",
-        "size": 18
+        "size": 25 
       },
       "encoding": {
         "x": {"field": "MidPoint", "type": "quantitative"},

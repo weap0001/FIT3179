@@ -1,200 +1,198 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Visualisation 2</title>
-    <script src="https://cdn.jsdelivr.net/npm/vega@5.25.0"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.15.0"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.22.2"></script>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>USA Election</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  <style>
+
+    #vis1 {
+      padding: 20px; 
+      padding-left: 5%;
+    }
+
+    .footer p {
+      padding: 0px; 
+      text-align: left;
+      padding-left: 3%;
+      color: grey;
+    }
+
+    p {
+      text-align: justify;
+      margin: 0%;;
+      padding: 10px;
+      padding-left: 3%;
+      padding-right: 3%;
+    }
+
+    .footer {
+      text-align: center;
+      font-weight: normal; 
+      border-top: 1px solid #eaeaea;
+      padding-top: 3%;
+      padding-bottom: 3%;
+  }
+
+    body {
+      background-color: black; 
+      text-align: center;
+    }
+    .main-container {
+      margin: 0 auto;
+      max-width: 1000px;
+      background-color: #ffffff;
+      text-align: center;
+    }
+
+    .divider-line {
+      border-top: 2px solid rgb(211, 205, 205);
+      margin-top: 10px;
+      margin-bottom: 10px;
+      width: 95%;
+      margin: 0 auto;
+    }
+
+    .vis-container .col-md-6 {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .vis-title {
+      padding: 10px;
+      margin-bottom: 10px;
+      width: 90%;
+      font-family: Arial, sans-serif;
+      font-size: 25px;
+      font-weight: bold;
+      padding-left: 10%;
+    }
+
+    .vis-main-title {
+      padding: 10px;
+      margin-bottom: 10px;
+      font-family: Arial, sans-serif;
+      font-size: 40px;
+      word-break: keep-all;
+      font-weight: bolder;
+    }
+
+    .middle-text, footer, h1 {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    h1 {
+      margin-top: 20px;
+    }
+  </style>
 </head>
 <body>
-    <h1>Visual Critique</h1>
-    <h2>Visualisation 1</h2>
+<div class="main-container">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12 text-center">
+        <div class="vis-main-title">US ELECTION ANALYSIS</div>
+      </div>
+    </div>
 
-    <div id="vis1"></div>
-    <script type="text/javascript">
-        var spec1 = {
-            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-            "title": "Top 10 Candidates by Votes According to Year",
-            "description": "A bar graph showing the votes of candidates.",
-            "width": 800,
-            "height": 500,
-            "data": {
-                "url": "https://raw.githubusercontent.com/weap0001/FIT3179/main/1976-2020-president.csv"
-            },
-            "transform": [
-                {
-                    "filter": "datum.year == year"
-                },
-                {
-                    "calculate": "log(datum.candidatevotes + 1)",
-                    "as": "logVotes"
-                },
-                {
-                    "calculate": "datum.candidatevotes + 1",
-                    "as": "nonTransformed"
-                },
-                {
-                    "window": [{"op": "rank", "as": "rank"}],
-                    "sort": [{"field": "candidatevotes", "order": "descending"}]
-                },
-                {
-                    "filter": "datum.rank <= 22"
-                }
-            ],
-            "mark": "bar",
-            "encoding": {
-                "x": {
-                    "field": "logVotes",
-                    "type": "quantitative",
-                    "title": "Log Transformed Candidate Votes"
-                },
-                "y": {
-                    "field": "candidate",
-                    "type": "nominal",
-                    "sort": "-x",
-                    "title": "Candidate"
-                },
-                "color": {
-                    "field": "year",
-                    "type": "ordinal",
-                    "legend": null
-                },
-                "tooltip": [
-                    {"field": "year", "type": "ordinal", "title": "Election Year"},
-                    {"field": "state", "type": "nominal", "title": "State"},
-                    {"field": "candidatevotes", "type": "quantitative", "title": "Votes"}
-                ]
-            },
-            "params": [
-                {
-                    "name": "year",
-                    "value": 1976,
-                    "bind": {
-                        "input": "range",
-                        "min": 1976,
-                        "max": 2020,
-                        "step": 4,
-                        "name": "Select Year"
-                    }
-                }
-            ]
-        };
-        
-        vegaEmbed('#vis1', spec1).catch(console.error);
-    </script>
+    <div class="divider-line"></div>
 
-    <h2>Visualisation 2</h2>
-    <div id="vis2"></div>
-    <script type="text/javascript">
-        var spec2 = {
-            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-            "title": "Electoral Votes for Each State (2022)",
-            "width": 800,
-            "height": 400,
-            "projection": {"type": "albersUsa"},
-            "data": {
-                "url": "https://raw.githubusercontent.com/weap0001/FIT3179-Week-9/main/ne_110m.json?token=GHSAT0AAAAAACFSYTIB2YGOHJA2PM",
-                "format": {
-                    "type": "topojson",
-                    "feature": "ne_110m_admin_1_states_provinces"
-                }
-            },
-            "transform": [
-                {
-                    "lookup": "properties.name",
-                    "from": {
-                        "data": {
-                            "url": "https://raw.githubusercontent.com/weap0001/FIT3179-Week-9/main/electoral_vote.csv"
-                        },
-                        "key": "state",
-                        "fields": ["vote"]
-                    }
-                },
-                {"calculate": "datum.vote || datum.vote+0.1", "as": "VOTES"}
-            ],
-            "mark": {"type": "geoshape", "stroke": "black"},
-            "encoding": {
-                "color": {
-                    "field": "VOTES",
-                    "type": "quantitative",
-                    "scale": {"scheme": "blues"}
-                },
-                "tooltip": [
-                    {"field": "properties.name", "type": "nominal", "title": "State"},
-                    {"field": "VOTES", "type": "quantitative", "title": "Electoral Votes"}
-                ]
-            }
-        };
-        
-        vegaEmbed('#vis2', spec2).catch(console.error);
-    </script>
+    <div class="row vis-container">
+      <div class="col-md-12 text-center">
+        <div class="vis-title">State Political Lean</div>
+        <div id="vis1"></div>
+      </div>
+    </div>
+    
 
-    <h2>Visualisation 3</h2>
-    <div id="vis3"></div>
-    <script type="text/javascript">
-        var spec3 = {
-            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-            "data": {
-                "url": "https://raw.githubusercontent.com/weap0001/FIT3179/main/USA_demographic.csv"
-            },
-            "title": "US Politic Party Ruling with GDP growth and Unemployment rates",
-            "width": 800,
-            "height": 400,
-            "layer": [
-                {
-                    "mark": "rect",
-                    "encoding": {
-                        "x": {"field": "Year", "type": "ordinal", "axis": {"title": ""}},
-                        "color": {
-                            "field": "Party",
-                            "type": "nominal",
-                            "legend": {"title": "Ruling Party"},
-                            "scale": {
-                                "domain": ["Democrat", "Republican"],
-                                "range": ["rgba(211, 211, 211, 0.0)", "rgba(211, 211, 211, 0.7)"]
-                            }
-                        }
-                    }
-                },
-                {
-                    "transform": [{"calculate": "'GDP Growth'", "as": "Metric"}],
-                    "mark": "line",
-                    "encoding": {
-                        "x": {"field": "Year", "type": "ordinal", "axis": {"title": ""}},
-                        "y": {"field": "Annual_GDP_growth", "type": "quantitative", "axis": {"title": "Rate %"}},
-                        "color": {
-                            "field": "Metric",
-                            "type": "nominal",
-                            "scale": {"domain": ["GDP Growth"], "range": ["red"]},
-                            "legend": {"title": "Metrics"}
-                        }
-                    }
-                },
-                {
-                    "transform": [{"calculate": "'Unemployment Rate'", "as": "Metric"}],
-                    "mark": "line",
-                    "encoding": {
-                        "x": {"field": "Year", "type": "ordinal", "axis": {"title": ""}},
-                        "y": {"field": "Unemployment_rate", "type": "quantitative", "axis": {"title": "Rate %"}},
-                        "color": {
-                            "field": "Metric",
-                            "type": "nominal",
-                            "scale": {"domain": ["Unemployment Rate"], "range": ["green"]},
-                            "legend": {"title": "Metrics"}
-                        }
-                    }
-                }
-            ],
-            "resolve": {
-                "scale": {
-                    "color": "independent"
-                }
-            }
-        };
-        
-        vegaEmbed('#vis3', spec3).catch(console.error);
-    </script>
+
+    <div class="row vis-container">
+      <div class="col-md-12 text-center">
+        <div id="vis2"></div>
+        <p></p>
+        <p>The visualisations provides a compelling snapshot of the political leanings across the United States, offering valuable insights into the nation's complex political landscape. Notably, the majority of states, as indicated by the 53.4% leaning Democratic, align themselves with the Democratic party. This Democratic stronghold is particularly pronounced in the Northeastern states, reflecting a longstanding trend in that region.</p>
+        <p>On the other hand, the 44.8% of states leaning Republican illustrates the substantial influence and appeal of the Republican party, particularly in the southern and central states. This aligns with the historical dominance of Republican politics in these areas. The gradient of color intensity on the map provides a more nuanced view, highlighting the states where the political competition is closer and less decisive.</p>
+        <p></p>
+      </div>
+    </div>
+
+    <div class="divider-line"></div>
+
+    <div class="row vis-container">
+      <div class="col-md-12 text-center">
+        <div class="vis-title">Total Votes By Party</div>
+        <div id="vis3"></div>
+        <p></p>
+        <p>The visualisation provides a comprehensive overview of the evolving landscape of total votes by party over the years. These time series line charts vividly illustrate the changing political dynamics and shifting voter preferences. Upon careful examination, several key trends come into focus. Firstly, the chart underscores the historical dominance of the Democratic Party in terms of total votes, implying enduring popularity among the electorate. However, in recent years, there is a noticeable surge in the Republican Party's vote count, indicating a significant shift in political momentum. This suggests a potential transformation in the socio-political climate or evolving voter priorities. The subtle fluctuations in the Purple and other parties' votes also hint at the emergence of third-party influences in the political landscape. </p>
+        <p></p>
+      </div>
+    </div>
+
+    <div class="divider-line"></div>
+
+    <div class="row vis-container">
+      <div class="col-md-12 text-center">
+        <div class="vis-title">Top Candidates Ranked</div>
+        <div id="vis4"></div>
+        <p></p>
+        <p>Presidential candidates can have a profound impact on the economic state of a country, especially in a nation as influential as the United States. The policies, proposals, and vision set forth by a candidate can shape investor confidence, consumer sentiment, and international trade relations. Often, even the mere anticipation of a particular candidate's election can lead to fluctuations in stock markets, currency valuations, and investment patterns, as stakeholders attempt to predict the economic direction the country might take. Furthermore, a candidate's stance on issues such as taxation, regulation, trade agreements, and fiscal policies can directly influence the health of various sectors, from manufacturing to technology. The perceived reliability and economic competence of a presidential candidate can either bolster or hinder economic growth prospects. In essence, the words and actions of those standing for the presidency can sway not just the immediate economic climate but can set the trajectory for years to come.</p>
+        <p></p>
+      </div>
+    </div>
+
+    <div class="divider-line"></div>
+
+    <div class="row vis-container">
+      <div class="col-md-12 text-center">
+        <div class="vis-title">Economic Performance</div>
+        <div id="vis5"></div>
+        <p></p>
+        <p>The visualisation provides a detailed depiction of the economic trends in terms of annual GDP growth and unemployment rate from the mid-1960s to 2020. There are evident correlations between significant economic events and the depicted metrics. Around the mid-1970s, there's a noticeable dip in GDP growth coinciding with the "Oil Crisis", suggesting its detrimental impact on economic productivity. Similarly, the "Black Monday" in the late 1980s corresponds with a spike in the unemployment rate. As we move towards the end of the millennium, the "Dot-com Burst" of the early 2000s is marked by a decline in GDP growth and a subsequent rise in unemployment. This trend becomes even more pronounced during the "Great Recession" of the late 2000s, with GDP growth plummeting and unemployment rates soaring. Post this period, there appears to be a steady recovery in GDP growth and a decrease in unemployment until around 2020. </p>
+        <p></p>
+      </div>
+    </div>
+
+    <div class="divider-line"></div>
+
+    <div class="footer">
+      <p><strong>Author:</strong> William Eap</p>
+      <p><strong>Organisation:</strong> Monash University</p>
+      <p><strong>Source:</strong> Hue Ding (https://www.kaggle.com/code/huesk8er/us-1976-2020-presidential-election-analysis)</p>
+  </div>
+
+    <div class="divider-line"></div>
+    <p></p>
+    
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+
+<script>
+    const spec1 = "https://raw.githubusercontent.com/weap0001/FIT3179/main/vote_split.json";
+    const spec2 = "https://raw.githubusercontent.com/weap0001/FIT3179/main/political_lean.json";
+    const spec3 = "https://raw.githubusercontent.com/weap0001/FIT3179/main/votes.json";
+    const spec4 = "https://raw.githubusercontent.com/weap0001/FIT3179/main/top_candidates.json";
+    const spec5 = "https://raw.githubusercontent.com/weap0001/FIT3179/main/gdp_and_unemployment.json";
+    
+    vegaEmbed("#vis1", spec1, {mode: "vega-lite"}).then(console.log).catch(console.warn);
+    vegaEmbed("#vis2", spec2, {mode: "vega-lite"}).then(console.log).catch(console.warn);
+    vegaEmbed("#vis3", spec3, {mode: "vega-lite"}).then(console.log).catch(console.warn);
+    vegaEmbed("#vis4", spec4, {mode: "vega-lite"}).then(console.log).catch(console.warn);
+    vegaEmbed("#vis5", spec5, {mode: "vega-lite"}).then(console.log).catch(console.warn);
+</script>
+
 </body>
 </html>

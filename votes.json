@@ -1,6 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "width": 500,
+  "width": 700,
   "height": 300,
   "data": {
     "url": "https://raw.githubusercontent.com/weap0001/FIT3179/main/1976-2020-president.csv"

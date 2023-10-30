@@ -54,6 +54,7 @@
         "align": "center",
         "baseline": "middle",
         "color": "white",
+        "fontWeight": "bold",
         "size": 18
       },
       "encoding": {

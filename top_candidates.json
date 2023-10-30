@@ -1,9 +1,5 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "title": {
-    "text": "Top 10 Candidates by Votes According to Year",
-    "subtitle": "\n"
-  },
   "width": 800,
   "height": 400,
   "data": {

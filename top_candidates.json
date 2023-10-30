@@ -1,7 +1,7 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "width": 500,
-  "height": 300,
+  "width": 700,
+  "height": 400,
   "data": {
     "url": "https://raw.githubusercontent.com/weap0001/FIT3179/main/1976-2020-president.csv"
   },
@@ -27,7 +27,7 @@
       "as": "partyLabel"
     }
   ],
-  "mark": {"type": "bar", "size": 20},
+  "mark": {"type": "bar", "size": 30},
   "encoding": {
     "x": {
       "field": "logVotes",

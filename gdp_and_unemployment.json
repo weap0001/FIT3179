@@ -3,8 +3,8 @@
   "data": {
     "url": "https://raw.githubusercontent.com/weap0001/FIT3179/main/USA_demographic.csv"
   },
-  "width": 800,
-  "height": 400,
+  "width": 500,
+  "height": 300,
   "padding": 20,
   "config": {
     "axis": {
@@ -108,13 +108,25 @@
       ]
     },
     {
-      "mark": {"type": "text", "dy": 335, "dx": -5, "align": "right"},
+      "mark": {"type": "text", "dy": 250, "dx": -5, "align": "right"},
       "data": {
         "values": [
           {"Year": "1973", "Event": "Oil Crisis - "},
           {"Year": "1987", "Event": "Black Monday - "},
-          {"Year": "2000", "Event": "Dot-com Burst - "},
-          {"Year": "2008", "Event": "Great Recession - "}
+          {"Year": "2000", "Event": "Dot-com Burst - "}
+        ]
+      },
+      "encoding": {
+        "x": {"field": "Year", "type": "ordinal"},
+        "y": {"value": 20},
+        "text": {"field": "Event", "type": "nominal"}
+      }
+    },
+        {
+      "mark": {"type": "text", "dy": 250, "dx":5, "align": "left"},
+      "data": {
+        "values": [
+          {"Year": "2007", "Event": "- Great Recession"}
         ]
       },
       "encoding": {
@@ -130,7 +142,7 @@
           {"Year": "1973"},
           {"Year": "1987"},
           {"Year": "2000"},
-          {"Year": "2008"}
+          {"Year": "2007"}
         ]
       },
       "encoding": {"x": {"field": "Year", "type": "ordinal"}}
